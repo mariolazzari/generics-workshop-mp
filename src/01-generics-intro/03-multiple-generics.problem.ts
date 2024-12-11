@@ -1,12 +1,14 @@
 import { expect, it } from "vitest";
 import { Equal, Expect } from "../helpers/type-utils";
 
-const returnBothOfWhatIPassIn = (a: unknown, b: unknown) => {
+const returnBothOfWhatIPassIn = <T, V>(a: T, b: V): { a: T; b: V } => {
   return {
     a,
     b,
   };
 };
+
+type ReturnObj<T, V> = { a: T; b: V };
 
 it("Should return an object of the arguments you pass", () => {
   const result = returnBothOfWhatIPassIn("a", 1);
