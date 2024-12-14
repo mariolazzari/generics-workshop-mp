@@ -35,7 +35,7 @@ describe("getHomePageFeatureFlags", () => {
   it("Should return the homePage flag object", () => {
     const flags = getHomePageFeatureFlags(
       EXAMPLE_CONFIG,
-      (defaultFlags) => defaultFlags
+      defaultFlags => defaultFlags
     );
 
     expect(flags).toEqual({
@@ -44,12 +44,12 @@ describe("getHomePageFeatureFlags", () => {
     });
 
     type tests = [
-      Expect<Equal<typeof flags, { showBanner: boolean; showLogOut: boolean }>>
+      Expect<Equal<typeof flags, { showBanner: boolean; showLogOut: boolean }>>,
     ];
   });
 
   it("Should allow you to modify the result", () => {
-    const flags = getHomePageFeatureFlags(EXAMPLE_CONFIG, (defaultFlags) => ({
+    const flags = getHomePageFeatureFlags(EXAMPLE_CONFIG, defaultFlags => ({
       ...defaultFlags,
       showBanner: false,
     }));
@@ -60,7 +60,7 @@ describe("getHomePageFeatureFlags", () => {
     });
 
     type tests = [
-      Expect<Equal<typeof flags, { showBanner: boolean; showLogOut: boolean }>>
+      Expect<Equal<typeof flags, { showBanner: boolean; showLogOut: boolean }>>,
     ];
   });
 });

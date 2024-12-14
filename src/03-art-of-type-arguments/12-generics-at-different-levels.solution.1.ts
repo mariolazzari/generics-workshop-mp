@@ -1,19 +1,15 @@
-import { expect, it, describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { Equal, Expect } from "../helpers/type-utils";
 
-export const getHomePageFeatureFlags = <
-  TConfig extends {
+export const getHomePageFeatureFlags = <HomePageFlags>(
+  config: {
     rawConfig: {
       featureFlags: {
-        homePage: any;
+        homePage: HomePageFlags;
       };
     };
-  }
->(
-  config: TConfig,
-  override: (
-    flags: TConfig["rawConfig"]["featureFlags"]["homePage"]
-  ) => TConfig["rawConfig"]["featureFlags"]["homePage"]
+  },
+  override: (flags: HomePageFlags) => HomePageFlags
 ) => {
   return override(config.rawConfig.featureFlags.homePage);
 };
@@ -39,7 +35,7 @@ describe("getHomePageFeatureFlags", () => {
   it("Should return the homePage flag object", () => {
     const flags = getHomePageFeatureFlags(
       EXAMPLE_CONFIG,
-      (defaultFlags) => defaultFlags
+      defaultFlags => defaultFlags
     );
 
     expect(flags).toEqual({
@@ -48,12 +44,12 @@ describe("getHomePageFeatureFlags", () => {
     });
 
     type tests = [
-      Expect<Equal<typeof flags, { showBanner: boolean; showLogOut: boolean }>>
+      Expect<Equal<typeof flags, { showBanner: boolean; showLogOut: boolean }>>,
     ];
   });
 
   it("Should allow you to modify the result", () => {
-    const flags = getHomePageFeatureFlags(EXAMPLE_CONFIG, (defaultFlags) => ({
+    const flags = getHomePageFeatureFlags(EXAMPLE_CONFIG, defaultFlags => ({
       ...defaultFlags,
       showBanner: false,
     }));
@@ -64,7 +60,7 @@ describe("getHomePageFeatureFlags", () => {
     });
 
     type tests = [
-      Expect<Equal<typeof flags, { showBanner: boolean; showLogOut: boolean }>>
+      Expect<Equal<typeof flags, { showBanner: boolean; showLogOut: boolean }>>,
     ];
   });
 });
