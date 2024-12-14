@@ -31,7 +31,7 @@ const acceptsValueWithObjectConstraint = <
     input: string;
   },
 >(
-  obj: T,
+  obj: T
 ) => {
   return obj.input;
 };

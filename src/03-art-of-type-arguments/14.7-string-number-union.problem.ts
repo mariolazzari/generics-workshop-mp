@@ -1,6 +1,8 @@
 import { Equal, Expect } from "../helpers/type-utils";
 
-export const inferItemLiteral = <T>(t: T) => {
+type StringOrNumber = string | number;
+
+export const inferItemLiteral = <T extends StringOrNumber>(t: T) => {
   return {
     output: t,
   };
@@ -11,7 +13,7 @@ const result2 = inferItemLiteral(123);
 
 type tests = [
   Expect<Equal<typeof result1, { output: "a" }>>,
-  Expect<Equal<typeof result2, { output: 123 }>>
+  Expect<Equal<typeof result2, { output: 123 }>>,
 ];
 
 // @ts-expect-error
