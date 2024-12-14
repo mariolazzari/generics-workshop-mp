@@ -2,32 +2,35 @@ import { expect, it } from "vitest";
 import { Equal, Expect } from "../helpers/type-utils";
 
 const makeSafe =
-  <TParams extends any[], TReturn>(func: (...args: TParams) => TReturn) =>
-  (
-    ...args: TParams
-  ):
-    | {
-        type: "success";
-        result: TReturn;
-      }
-    | {
-        type: "failure";
-        error: Error;
-      } => {
-    try {
-      const result = func(...args);
+  // <TParams extends unknown[], TReturn>(func: (...args: TParams) => TReturn) =>
 
-      return {
-        type: "success",
-        result,
-      };
-    } catch (e) {
-      return {
-        type: "failure",
-        error: e as Error,
-      };
-    }
-  };
+
+    <TFunc extends (...args: any[]) => any>(func: TFunc) =>
+    (
+      ...args: Parameters<TFunc> // TParams
+    ):
+      | {
+          type: "success";
+          result: ReturnType<TFunc>; // TReturn;
+        }
+      | {
+          type: "failure";
+          error: Error;
+        } => {
+      try {
+        const result = func(...args);
+
+        return {
+          type: "success",
+          result,
+        };
+      } catch (e) {
+        return {
+          type: "failure",
+          error: e as Error,
+        };
+      }
+    };
 
 it("Should return the result on a successful call", () => {
   const func = makeSafe(() => 1);
